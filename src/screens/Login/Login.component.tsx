@@ -1,11 +1,9 @@
-import React, {useRef, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   StatusBar,
-  Animated,
-  Keyboard,
+  KeyboardAvoidingView,
   Platform,
-  KeyboardEvent,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles} from './Login.styles';
@@ -24,57 +22,26 @@ interface LoginComponentProps {
 
 const LoginComponent: React.FC<LoginComponentProps> = props => {
   const insets = useSafeAreaInsets();
-  const slideAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    const showEvent =
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
-    const hideEvent =
-      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
-
-    const onShow = (e: KeyboardEvent) => {
-      Animated.spring(slideAnim, {
-        toValue: -(e.endCoordinates.height * 0.52),
-        useNativeDriver: true,
-        damping: 18,
-        stiffness: 180,
-        mass: 0.8,
-      }).start();
-    };
-
-    const onHide = () => {
-      Animated.spring(slideAnim, {
-        toValue: 0,
-        useNativeDriver: true,
-        damping: 18,
-        stiffness: 180,
-        mass: 0.8,
-      }).start();
-    };
-
-    const showSub = Keyboard.addListener(showEvent, onShow);
-    const hideSub = Keyboard.addListener(hideEvent, onHide);
-
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, [slideAnim]);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
 
-      {/* ── Section 1: Green header (pushed down with top inset + extra padding) ── */}
+      {/* ── Section 1: Green header (stays fixed, never moves) ── */}
       <View style={[styles.headerSection, {paddingTop: insets.top + 28}]}>
         <LoginHeaderSection />
       </View>
 
-      {/* ── Section 2: Form card — centered in lower half, slides up on keyboard ── */}
-      <Animated.View
-        style={[styles.formSection, {transform: [{translateY: slideAnim}]}]}>
-        <LoginFormSection {...props} />
-      </Animated.View>
+      {/* ── Section 2: Form — KAV pushes form up on keyboard,
+          but it's bounded below the header so no overlap ── */}
+      <KeyboardAvoidingView
+        style={styles.formOuter}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}>
+        <View style={styles.formInner}>
+          <LoginFormSection {...props} />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

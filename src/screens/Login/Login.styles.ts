@@ -1,20 +1,17 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Colors} from '../../constants/colors';
 import {FontSize, FontWeight} from '../../constants/fonts';
-
-const {height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.background},
 
-  // ── Section 1: Green header ──────────────────────────────
+  // ── Section 1: Green header (fixed, never moves) ────────────
   headerSection: {
     backgroundColor: Colors.primary,
     paddingBottom: 52,
     paddingHorizontal: 28,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    // Shadow so the header floats above the bg
     shadowColor: Colors.primaryDark,
     shadowOffset: {width: 0, height: 6},
     shadowOpacity: 0.25,
@@ -56,17 +53,20 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // ── Section 2: Form (centered in lower half) ──────────────
-  formSection: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    // Start at 44% of screen height so form sits in center of lower area
-    top: height * 0.44,
+  // ── Section 2: Form area ─────────────────────────────────────
+  // KAV fills remaining space below the header; when keyboard opens
+  // it adds paddingBottom = keyboardHeight, centering form above keyboard
+  formOuter: {
+    flex: 1,
+  },
+  formInner: {
+    flex: 1,
+    justifyContent: 'center',
     paddingHorizontal: 24,
+    paddingBottom: 24,
   },
 
-  // ── Form card ─────────────────────────────────────────────
+  // ── Form card ────────────────────────────────────────────────
   body: {
     backgroundColor: Colors.card,
     borderRadius: 24,
