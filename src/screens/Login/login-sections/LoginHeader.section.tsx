@@ -1,18 +1,34 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Animated} from 'react-native';
 import {styles} from '../Login.styles';
 import {LOGIN_STRINGS} from '../Login.constants';
 
-const LoginHeaderSection: React.FC = () => (
+interface LoginHeaderSectionProps {
+  logoMarginBottom: Animated.Value;
+  subtitleOpacity: Animated.Value;
+  subtitleMaxHeight: Animated.Value;
+}
+
+const LoginHeaderSection: React.FC<LoginHeaderSectionProps> = ({
+  logoMarginBottom,
+  subtitleOpacity,
+  subtitleMaxHeight,
+}) => (
   <>
-    <View style={styles.logoRow}>
+    <Animated.View style={[styles.logoRow, {marginBottom: logoMarginBottom}]}>
       <View style={styles.logoCircle}>
         <Text style={styles.logoText}>EKO</Text>
       </View>
       <Text style={styles.appName}>EKO Rider</Text>
-    </View>
+    </Animated.View>
     <Text style={styles.title}>{LOGIN_STRINGS.TITLE}</Text>
-    <Text style={styles.subtitle}>{LOGIN_STRINGS.SUBTITLE}</Text>
+    <Animated.Text
+      style={[
+        styles.subtitle,
+        {opacity: subtitleOpacity, maxHeight: subtitleMaxHeight, overflow: 'hidden'},
+      ]}>
+      {LOGIN_STRINGS.SUBTITLE}
+    </Animated.Text>
   </>
 );
 

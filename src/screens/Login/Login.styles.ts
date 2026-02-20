@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   // ── Section 1: Green header (fixed, never moves) ────────────
   headerSection: {
     backgroundColor: Colors.primary,
-    paddingBottom: 52,
     paddingHorizontal: 28,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -18,7 +17,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 10,
   },
-  logoRow: {flexDirection: 'row', alignItems: 'center', marginBottom: 32},
+  logoRow: {flexDirection: 'row', alignItems: 'center'},
   logoCircle: {
     width: 44,
     height: 44,
