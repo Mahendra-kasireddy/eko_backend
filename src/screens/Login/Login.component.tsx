@@ -36,14 +36,15 @@ const LoginComponent: React.FC<LoginComponentProps> = props => {
 
   useEffect(() => {
     const dur = Platform.OS === 'ios' ? 260 : 200;
+    // All use useNativeDriver: false — maxHeight can't use native driver,
+    // and mixing native/non-native on the same Animated component throws an error.
     const t = (v: number) => ({toValue: v, duration: dur, easing: ease, useNativeDriver: false as const});
-    const tN = (v: number) => ({toValue: v, duration: dur, easing: ease, useNativeDriver: true as const});
 
     const compress = () =>
       Animated.parallel([
         Animated.timing(headerPB, t(14)),
         Animated.timing(logoMB, t(12)),
-        Animated.timing(subtitleOpacity, tN(0)),
+        Animated.timing(subtitleOpacity, t(0)),
         Animated.timing(subtitleMaxH, t(0)),
       ]).start();
 
@@ -51,7 +52,7 @@ const LoginComponent: React.FC<LoginComponentProps> = props => {
       Animated.parallel([
         Animated.timing(headerPB, t(52)),
         Animated.timing(logoMB, t(32)),
-        Animated.timing(subtitleOpacity, tN(1)),
+        Animated.timing(subtitleOpacity, t(1)),
         Animated.timing(subtitleMaxH, t(26)),
       ]).start();
 
