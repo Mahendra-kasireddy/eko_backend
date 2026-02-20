@@ -1,0 +1,18 @@
+export const TRIPS_STRINGS = {
+  TITLE: 'Current Trip',
+  NO_TRIP_TITLE: 'No Active Trip',
+  NO_TRIP_DESC: 'Go online from Home to receive orders',
+  ORDER_DETAILS: 'Order Details',
+  ITEMS: 'Items',
+  CUSTOMER: 'Customer',
+  STORE: 'Store',
+  PICKUP: 'Pickup Store',
+  DELIVERY: 'Delivery',
+  START_TRIP: 'Start Trip',
+  PICKED_UP: 'Mark as Picked Up',
+  DELIVERED: 'Mark as Delivered',
+  COLLECT_PLASTIC: 'Collect Plastic ♻️',
+  CALL_CUSTOMER: 'Call Customer',
+  CALL_STORE: 'Call Store',
+  AMOUNT: 'Order Amount',
+};

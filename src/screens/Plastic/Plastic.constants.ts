@@ -1,0 +1,17 @@
+export const PLASTIC_STRINGS = {
+  TITLE: 'Plastic Collection',
+  MONTHLY_SUMMARY: 'Monthly Summary',
+  COLLECTIONS: 'Collection Log',
+  TOTAL_COLLECTED: 'Total Collected',
+  SUBMITTED: 'Submitted',
+  PENDING: 'Pending Submission',
+  INCENTIVE: 'Incentive Earned',
+  BAGS: 'Bags',
+  LOG_NEW: '+ Log Collection',
+  EMPTY_TITLE: 'No collections yet',
+  EMPTY_DESC: 'Start collecting plastic at your next delivery!',
+  STATUS_SUBMITTED: 'Submitted',
+  STATUS_COLLECTED: 'Pending',
+  TIER_PROGRESS: 'Tier Progress',
+  SILVER_TARGET: '25 kg target for Gold',
+};

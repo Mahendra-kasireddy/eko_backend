@@ -1,0 +1,15 @@
+export const EARNINGS_STRINGS = {
+  TITLE: 'My Earnings',
+  MONTHLY_TOTAL: 'Monthly Total',
+  BASE_SALARY: 'Base Salary',
+  PLASTIC_BONUS: 'Plastic Bonus',
+  RIDE_EARNINGS: 'Ride Earnings',
+  TOTAL: 'Total',
+  WEEKLY_CHART: 'Weekly Breakdown',
+  PAYOUT_HISTORY: 'Payout History',
+  STATUS_PAID: 'Paid',
+  STATUS_PENDING: 'Pending',
+  STATUS_PROCESSING: 'Processing',
+  PLASTIC_KG: 'Plastic Collected',
+  TIER_LABEL: 'Current Tier',
+};
