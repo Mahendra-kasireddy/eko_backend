@@ -66,17 +66,8 @@ export const styles = StyleSheet.create({
     paddingBottom: 24,
   },
 
-  // ── Form card ────────────────────────────────────────────────
-  body: {
-    backgroundColor: Colors.card,
-    borderRadius: 24,
-    padding: 24,
-    shadowColor: Colors.shadow,
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    elevation: 6,
-  },
+  // ── Form content (no card — sits directly on background) ────
+  body: {},
   label: {
     fontSize: FontSize.xs,
     fontWeight: FontWeight.bold,
