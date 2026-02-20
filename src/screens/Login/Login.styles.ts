@@ -1,24 +1,31 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {Colors} from '../../constants/colors';
 import {FontSize, FontWeight} from '../../constants/fonts';
+
+const {height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.background},
 
-  // Header
-  topBg: {
+  // ── Section 1: Green header ──────────────────────────────
+  headerSection: {
     backgroundColor: Colors.primary,
-    paddingTop: 64,
     paddingBottom: 52,
     paddingHorizontal: 28,
-    borderBottomLeftRadius: 36,
-    borderBottomRightRadius: 36,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    // Shadow so the header floats above the bg
+    shadowColor: Colors.primaryDark,
+    shadowOffset: {width: 0, height: 6},
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 10,
   },
-  logoRow: {flexDirection: 'row', alignItems: 'center', marginBottom: 28},
+  logoRow: {flexDirection: 'row', alignItems: 'center', marginBottom: 32},
   logoCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: 44,
+    height: 44,
+    borderRadius: 13,
     backgroundColor: 'rgba(255,255,255,0.18)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -41,7 +48,7 @@ export const styles = StyleSheet.create({
     fontWeight: FontWeight.extraBold,
     color: Colors.text.inverse,
     marginBottom: 10,
-    lineHeight: 40,
+    lineHeight: 42,
   },
   subtitle: {
     fontSize: FontSize.base,
@@ -49,34 +56,47 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // Body
-  body: {padding: 24, flex: 1},
+  // ── Section 2: Form (centered in lower half) ──────────────
+  formSection: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    // Start at 44% of screen height so form sits in center of lower area
+    top: height * 0.44,
+    paddingHorizontal: 24,
+  },
+
+  // ── Form card ─────────────────────────────────────────────
+  body: {
+    backgroundColor: Colors.card,
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: Colors.shadow,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
+    elevation: 6,
+  },
   label: {
     fontSize: FontSize.xs,
     fontWeight: FontWeight.bold,
     color: Colors.text.secondary,
     marginBottom: 10,
-    marginTop: 28,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
   inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: Colors.background,
     borderRadius: 14,
     borderWidth: 1.5,
     borderColor: Colors.border,
     overflow: 'hidden',
-    shadowColor: Colors.shadow,
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2,
   },
   inputRowFocused: {
     borderColor: Colors.primary,
-    shadowOpacity: 0.1,
+    backgroundColor: Colors.card,
   },
   countryCode: {
     paddingHorizontal: 16,
@@ -110,13 +130,12 @@ export const styles = StyleSheet.create({
     marginLeft: 2,
     fontWeight: FontWeight.medium,
   },
-  continueBtn: {marginTop: 28},
+  continueBtn: {marginTop: 20},
   terms: {
-    marginTop: 28,
+    marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    paddingHorizontal: 8,
   },
   termsText: {fontSize: FontSize.xs, color: Colors.text.muted, lineHeight: 18},
   termsLink: {
