@@ -22,13 +22,10 @@ const LoginHeaderSection: React.FC<LoginHeaderSectionProps> = ({
       <Text style={styles.appName}>EKO Rider</Text>
     </Animated.View>
     <Text style={styles.title}>{LOGIN_STRINGS.TITLE}</Text>
-    <Animated.Text
-      style={[
-        styles.subtitle,
-        {opacity: subtitleOpacity, maxHeight: subtitleMaxHeight, overflow: 'hidden'},
-      ]}>
-      {LOGIN_STRINGS.SUBTITLE}
-    </Animated.Text>
+    <Animated.View
+      style={{opacity: subtitleOpacity, maxHeight: subtitleMaxHeight, overflow: 'hidden'}}>
+      <Text style={styles.subtitle}>{LOGIN_STRINGS.SUBTITLE}</Text>
+    </Animated.View>
   </>
 );
 
