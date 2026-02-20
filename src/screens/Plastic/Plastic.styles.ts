@@ -3,7 +3,7 @@ import {Colors} from '../../constants/colors';
 import {FontSize, FontWeight} from '../../constants/fonts';
 
 export const styles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: Colors.background},
+  container: {flex: 1, backgroundColor: Colors.primary},
 
   // Header
   header: {
