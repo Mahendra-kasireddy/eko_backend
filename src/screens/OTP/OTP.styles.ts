@@ -4,13 +4,24 @@ import {FontSize, FontWeight} from '../../constants/fonts';
 
 export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.background},
-  topBg: {
+  headerSection: {
     backgroundColor: Colors.primary,
-    paddingTop: 60,
-    paddingBottom: 44,
+    paddingBottom: 52,
     paddingHorizontal: 28,
-    borderBottomLeftRadius: 36,
-    borderBottomRightRadius: 36,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    shadowColor: '#0B3D2E',
+    shadowOffset: {width: 0, height: 6},
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 10,
+  },
+  formOuter: {flex: 1},
+  formInner: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
   backBtn: {marginBottom: 24, alignSelf: 'flex-start'},
   backText: {
@@ -19,14 +30,14 @@ export const styles = StyleSheet.create({
     fontWeight: FontWeight.bold,
   },
   title: {
-    fontSize: FontSize.xxl,
+    fontSize: FontSize.xxxl,
     fontWeight: FontWeight.extraBold,
     color: Colors.text.inverse,
     marginBottom: 10,
+    lineHeight: 42,
   },
   subtitle: {fontSize: FontSize.base, color: Colors.text.light, lineHeight: 22},
   phone: {color: Colors.cta, fontWeight: FontWeight.bold},
-  body: {paddingHorizontal: 28, paddingTop: 8},
   otpRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

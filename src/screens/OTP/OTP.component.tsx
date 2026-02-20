@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StatusBar, KeyboardAvoidingView, Platform} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles} from './OTP.styles';
 import {OTP_STRINGS} from './OTP.constants';
 import OTPHeaderSection from './otp-sections/OTPHeader.section';
@@ -23,15 +24,24 @@ interface OTPComponentProps {
 }
 
 const OTPComponent: React.FC<OTPComponentProps> = props => {
+  const insets = useSafeAreaInsets();
   const otpFilled = props.otp.every(d => d !== '');
+
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+
+      {/* Section 1: Green header */}
+      <View style={[styles.headerSection, {paddingTop: insets.top + 20}]}>
         <OTPHeaderSection phone={props.phone} onBack={props.handleBack} />
-        <View style={styles.body}>
+      </View>
+
+      {/* Section 2: Form — centered in remaining space */}
+      <KeyboardAvoidingView
+        style={styles.formOuter}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}>
+        <View style={styles.formInner}>
           <OTPInputSection
             otp={props.otp}
             focusedIndex={props.focusedIndex}
@@ -54,8 +64,8 @@ const OTPComponent: React.FC<OTPComponentProps> = props => {
             onChangeNumber={props.handleBack}
           />
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
