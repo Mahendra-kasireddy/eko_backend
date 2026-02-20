@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, StatusBar} from 'react-native';
+import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './Earnings.styles';
 import EarningsHeaderSection from './earnings-sections/EarningsHeader.section';
@@ -15,6 +16,7 @@ interface EarningsComponentProps {
 }
 
 const EarningsComponent: React.FC<EarningsComponentProps> = ({monthlyEarnings, loading}) => {
+  useStatusBarStyle('light-content', '#1B4332');
   if (loading || !monthlyEarnings) return <EkoLoader fullScreen message="Loading earnings..." />;
 
   return (

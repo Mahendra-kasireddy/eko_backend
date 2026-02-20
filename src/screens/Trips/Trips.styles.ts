@@ -177,6 +177,55 @@ export const styles = StyleSheet.create({
 
   scroll: {flex: 1},
 
+  // Tab switcher
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: Colors.card,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    paddingBottom: 10,
+    marginHorizontal: 4,
+  },
+  tabActive: {
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.primary,
+  },
+  tabText: {
+    fontSize: FontSize.sm,
+    fontWeight: FontWeight.semiBold,
+    color: Colors.text.secondary,
+  },
+  tabTextActive: {
+    color: Colors.primary,
+    fontWeight: FontWeight.bold,
+  },
+  tabBadge: {
+    backgroundColor: Colors.primary,
+    borderRadius: 10,
+    minWidth: 18,
+    height: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    marginLeft: 6,
+  },
+  tabBadgeText: {
+    fontSize: 10,
+    fontWeight: FontWeight.bold,
+    color: Colors.text.inverse,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   // Detail cards
   detailSection: {padding: 16},
   sectionCard: {

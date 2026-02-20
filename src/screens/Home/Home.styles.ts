@@ -6,42 +6,6 @@ export const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: Colors.background},
   scroll: {flex: 1},
 
-  // ── Top Bar (white, Zepto/Blinkit style) ──────────────
-  topBar: {
-    backgroundColor: Colors.card,
-    paddingTop: 16,
-    paddingHorizontal: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-  },
-  topBarRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  topBarLeft: {flex: 1},
-  topBarGreeting: {
-    fontSize: FontSize.xs,
-    color: Colors.text.secondary,
-    fontWeight: FontWeight.medium,
-    marginBottom: 2,
-  },
-  topBarName: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.extraBold,
-    color: Colors.text.primary,
-  },
-  tierBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    gap: 4,
-  },
-  tierText: {fontSize: FontSize.xs, fontWeight: FontWeight.bold},
-
   // ── Earnings Hero Card (standalone green, Blinkit style) ──
   earningsHero: {
     backgroundColor: Colors.primary,

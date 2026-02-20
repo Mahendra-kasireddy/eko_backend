@@ -4,5 +4,9 @@ import {useTripsActions} from './useTripsActions.hook';
 export const useTripsHook = () => {
   const data = useTripsData();
   const actions = useTripsActions(data.activeTrip, data.updateTripStatus);
-  return {...data, ...actions};
+  return {
+    activeTrip: data.activeTrip,
+    tripHistory: data.tripHistory,
+    ...actions,
+  };
 };

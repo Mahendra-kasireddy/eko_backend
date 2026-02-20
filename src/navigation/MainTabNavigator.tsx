@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MainTabParamList} from './navigation.types';
 import {Colors} from '../constants/colors';
 import {FontSize, FontWeight} from '../constants/fonts';
@@ -28,11 +29,11 @@ interface TabBarProps {
   };
 }
 
-const TAB_ICONS: Record<string, string> = {
-  Home: '⌂',
-  Trips: '⊙',
-  Earnings: '₹',
-  Profile: '◉',
+const TAB_ICONS: Record<string, {active: string; inactive: string}> = {
+  Home: {active: 'home', inactive: 'home-outline'},
+  Trips: {active: 'bicycle', inactive: 'bicycle-outline'},
+  Earnings: {active: 'wallet', inactive: 'wallet-outline'},
+  Profile: {active: 'person-circle', inactive: 'person-circle-outline'},
 };
 
 const TAB_LABELS: Record<string, string> = {
@@ -105,13 +106,15 @@ const CustomTabBar: React.FC<TabBarProps> = ({state, navigation}) => {
                 tabStyles.iconWrapper,
                 isFocused && tabStyles.iconWrapperActive,
               ]}>
-              <Text
-                style={[
-                  tabStyles.icon,
-                  {color: isFocused ? Colors.primary : Colors.text.muted},
-                ]}>
-                {TAB_ICONS[route.name]}
-              </Text>
+              <Ionicons
+                name={
+                  isFocused
+                    ? TAB_ICONS[route.name]?.active
+                    : TAB_ICONS[route.name]?.inactive
+                }
+                size={22}
+                color={isFocused ? Colors.primary : Colors.text.muted}
+              />
             </View>
             <Text
               style={[
@@ -171,7 +174,6 @@ const tabStyles = StyleSheet.create({
   iconWrapperActive: {
     backgroundColor: Colors.primary + '12',
   },
-  icon: {fontSize: 20},
   label: {fontSize: FontSize.xs, letterSpacing: 0.2},
   ekoWrapper: {
     flex: 1,

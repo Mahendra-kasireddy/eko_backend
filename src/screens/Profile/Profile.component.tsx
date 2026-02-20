@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, StatusBar} from 'react-native';
+import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './Profile.styles';
 import ProfileHeaderSection from './profile-sections/ProfileHeader.section';
@@ -14,7 +15,9 @@ interface ProfileComponentProps {
   handleLogout: () => void;
 }
 
-const ProfileComponent: React.FC<ProfileComponentProps> = ({rider, stats, handleLogout}) => (
+const ProfileComponent: React.FC<ProfileComponentProps> = ({rider, stats, handleLogout}) => {
+  useStatusBarStyle('light-content', '#1B4332');
+  return (
   <SafeAreaView style={styles.container} edges={['top']}>
     <StatusBar barStyle="light-content" backgroundColor="#1B4332" />
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -24,6 +27,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({rider, stats, handle
       <ProfileSettingsSection onLogout={handleLogout} />
     </ScrollView>
   </SafeAreaView>
-);
+  );
+};
 
 export default ProfileComponent;

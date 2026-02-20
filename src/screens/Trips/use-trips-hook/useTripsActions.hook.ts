@@ -2,12 +2,14 @@ import {useState} from 'react';
 import {Alert, Linking, Platform} from 'react-native';
 import {Trip} from '../../../types/trip.types';
 import {updateTripStatus as apiUpdateTrip} from '../../../services/trip.service';
+import {useTripStore} from '../../../store/trip.store';
 
 export const useTripsActions = (
   activeTrip: Trip | null,
   updateTripStatus: (status: Trip['status']) => void,
 ) => {
   const [actionLoading, setActionLoading] = useState(false);
+  const completeTrip = useTripStore(s => s.completeTrip);
 
   const handleTripAction = async () => {
     if (!activeTrip) return;
@@ -24,7 +26,12 @@ export const useTripsActions = (
     setActionLoading(true);
     try {
       await apiUpdateTrip(activeTrip.id, nextStatus);
-      updateTripStatus(nextStatus);
+      // When delivered → move trip to history and clear activeTrip
+      if (nextStatus === 'delivered') {
+        completeTrip();
+      } else {
+        updateTripStatus(nextStatus);
+      }
       // After "Mark as Picked Up" → auto-navigate to customer
       if (nextStatus === 'in_transit') {
         const {latitude, longitude} = activeTrip.customer.coordinates;

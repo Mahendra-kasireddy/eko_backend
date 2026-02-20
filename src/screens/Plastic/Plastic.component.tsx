@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
+import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './Plastic.styles';
 import {PLASTIC_STRINGS} from './Plastic.constants';
@@ -19,6 +20,8 @@ const PlasticComponent: React.FC<PlasticComponentProps> = ({
   collections,
   loading,
 }) => {
+  useStatusBarStyle('light-content', '#1B4332');
+
   if (loading) return <EkoLoader fullScreen message="Loading plastic data..." />;
 
   return (
