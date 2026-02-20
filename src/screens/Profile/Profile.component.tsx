@@ -1,8 +1,9 @@
 import React from 'react';
-import {ScrollView, StatusBar} from 'react-native';
+import {View, ScrollView, StatusBar} from 'react-native';
 import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles} from './Profile.styles';
+import {Colors} from '../../constants/colors';
 import ProfileHeaderSection from './profile-sections/ProfileHeader.section';
 import ProfileStatsSection from './profile-sections/ProfileStats.section';
 import ProfileVehicleSection from './profile-sections/ProfileVehicle.section';
@@ -16,17 +17,21 @@ interface ProfileComponentProps {
 }
 
 const ProfileComponent: React.FC<ProfileComponentProps> = ({rider, stats, handleLogout}) => {
-  useStatusBarStyle('light-content', '#1B4332');
+  useStatusBarStyle('light-content', Colors.primary);
+  const insets = useSafeAreaInsets();
+
   return (
-  <SafeAreaView style={styles.container} edges={['top']}>
-    <StatusBar barStyle="light-content" backgroundColor="#1B4332" />
-    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-      <ProfileHeaderSection rider={rider} />
-      <ProfileStatsSection rider={rider} stats={stats} />
-      <ProfileVehicleSection rider={rider} />
-      <ProfileSettingsSection onLogout={handleLogout} />
-    </ScrollView>
-  </SafeAreaView>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+      {/* Green strip fills the status bar inset area — white icons visible */}
+      <View style={{height: insets.top, backgroundColor: Colors.primary}} />
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <ProfileHeaderSection rider={rider} />
+        <ProfileStatsSection rider={rider} stats={stats} />
+        <ProfileVehicleSection rider={rider} />
+        <ProfileSettingsSection onLogout={handleLogout} />
+      </ScrollView>
+    </View>
   );
 };
 

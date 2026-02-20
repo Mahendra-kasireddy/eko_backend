@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, Text, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
 import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles} from './Plastic.styles';
+import {Colors} from '../../constants/colors';
 import {PLASTIC_STRINGS} from './Plastic.constants';
 import PlasticSummarySection from './plastic-sections/PlasticSummary.section';
 import PlasticListSection from './plastic-sections/PlasticList.section';
@@ -20,13 +21,16 @@ const PlasticComponent: React.FC<PlasticComponentProps> = ({
   collections,
   loading,
 }) => {
-  useStatusBarStyle('light-content', '#1B4332');
+  useStatusBarStyle('light-content', Colors.primary);
+  const insets = useSafeAreaInsets();
 
   if (loading) return <EkoLoader fullScreen message="Loading plastic data..." />;
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor="#1B4332" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+      {/* Green strip fills the status bar inset area — white icons visible */}
+      <View style={{height: insets.top, backgroundColor: Colors.primary}} />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>♻️ {PLASTIC_STRINGS.TITLE}</Text>
         <Text style={styles.headerSubtitle}>Collect · Submit · Earn</Text>
@@ -40,7 +44,7 @@ const PlasticComponent: React.FC<PlasticComponentProps> = ({
         <Text style={{fontSize: 18, color: '#fff'}}>♻</Text>
         <Text style={styles.fabText}>{PLASTIC_STRINGS.LOG_NEW}</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

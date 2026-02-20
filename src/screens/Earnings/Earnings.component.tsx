@@ -1,8 +1,9 @@
 import React from 'react';
-import {ScrollView, StatusBar} from 'react-native';
+import {View, ScrollView, StatusBar} from 'react-native';
 import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {styles} from './Earnings.styles';
+import {Colors} from '../../constants/colors';
 import EarningsHeaderSection from './earnings-sections/EarningsHeader.section';
 import EarningsBreakdownSection from './earnings-sections/EarningsBreakdown.section';
 import EarningsChartSection from './earnings-sections/EarningsChart.section';
@@ -16,19 +17,23 @@ interface EarningsComponentProps {
 }
 
 const EarningsComponent: React.FC<EarningsComponentProps> = ({monthlyEarnings, loading}) => {
-  useStatusBarStyle('light-content', '#1B4332');
+  useStatusBarStyle('light-content', Colors.primary);
+  const insets = useSafeAreaInsets();
+
   if (loading || !monthlyEarnings) return <EkoLoader fullScreen message="Loading earnings..." />;
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor="#1B4332" />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+      {/* Green strip fills the status bar inset area — white icons visible */}
+      <View style={{height: insets.top, backgroundColor: Colors.primary}} />
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <EarningsHeaderSection earnings={monthlyEarnings} />
         <EarningsBreakdownSection earnings={monthlyEarnings} />
         <EarningsChartSection weeklyBreakdown={monthlyEarnings.weeklyBreakdown} />
         <EarningsHistorySection payoutHistory={monthlyEarnings.payoutHistory} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
