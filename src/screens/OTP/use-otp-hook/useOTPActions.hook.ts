@@ -27,8 +27,12 @@ export const useOTPActions = (
     setError('');
     try {
       const res = await verifyOtp(phone, code);
-      setRider(res.rider);
-      // Navigation handled by RootNavigator via store
+      if (res.isNewUser) {
+        navigation.navigate('Signup', {phone});
+      } else {
+        setRider(res.rider);
+        // Navigation handled by RootNavigator via store
+      }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Verification failed');
     } finally {

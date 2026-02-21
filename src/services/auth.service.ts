@@ -1,4 +1,13 @@
-import {Rider} from '../types/rider.types';
+import {Rider, VehicleType} from '../types/rider.types';
+
+export interface RegisterRiderPayload {
+  phone: string;
+  name: string;
+  email?: string;
+  vehicleType: VehicleType;
+  vehicleNumber: string;
+  city: string;
+}
 
 export interface SendOtpResponse {
   success: boolean;
@@ -45,5 +54,50 @@ export const verifyOtp = async (
       },
     };
   }
+  // Use OTP '0000' to simulate a new user (signup flow)
+  if (otp === '0000') {
+    return {
+      success: true,
+      token: 'mock-jwt-token-new-rider',
+      isNewUser: true,
+      rider: {
+        id: '',
+        name: '',
+        phone,
+        vehicleType: 'bike',
+        vehicleNumber: '',
+        tier: 'bronze',
+        isOnline: false,
+        rating: 0,
+        totalDeliveries: 0,
+        joinedAt: new Date().toISOString(),
+        city: '',
+      },
+    };
+  }
   throw new Error('Invalid OTP. Please try again.');
+};
+
+export const registerRider = async (
+  payload: RegisterRiderPayload,
+): Promise<{success: boolean; rider: Rider}> => {
+  // Mock — replace with: return apiClient.post(ENDPOINTS.AUTH.REGISTER, payload)
+  await new Promise<void>(resolve => setTimeout(resolve, 1200));
+  return {
+    success: true,
+    rider: {
+      id: `rider_${Date.now()}`,
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email,
+      vehicleType: payload.vehicleType,
+      vehicleNumber: payload.vehicleNumber.toUpperCase(),
+      tier: 'bronze',
+      isOnline: false,
+      rating: 5.0,
+      totalDeliveries: 0,
+      joinedAt: new Date().toISOString(),
+      city: payload.city,
+    },
+  };
 };

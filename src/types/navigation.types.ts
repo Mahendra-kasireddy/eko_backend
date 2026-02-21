@@ -5,6 +5,7 @@ export type AuthStackParamList = {
   Onboarding: undefined;
   Login: undefined;
   OTP: {phone: string};
+  Signup: {phone: string};
 };
 
 export type MainTabParamList = {
