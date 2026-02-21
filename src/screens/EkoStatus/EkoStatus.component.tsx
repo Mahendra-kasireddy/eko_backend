@@ -7,15 +7,26 @@ import {Colors} from '../../constants/colors';
 import ScreenHeader from '../../components/ScreenHeader/ScreenHeader';
 import EkoOfflineSection from './eko-status-sections/EkoOffline.section';
 import EkoOnlineSection from './eko-status-sections/EkoOnline.section';
+import {Trip} from '../../types/trip.types';
 
 interface EkoStatusComponentProps {
   isOnline: boolean;
   toggleOnlineStatus: () => void;
+  activeTrip: Trip | null;
+  actionLoading: boolean;
+  handleTripAction: () => void;
+  callCustomer: () => void;
+  callStore: () => void;
 }
 
 const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
   isOnline,
   toggleOnlineStatus,
+  activeTrip,
+  actionLoading,
+  handleTripAction,
+  callCustomer,
+  callStore,
 }) => {
   useStatusBarStyle('dark-content', Colors.card);
 
@@ -25,7 +36,14 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
       <ScreenHeader title={isOnline ? 'Eko Online' : 'Eko Offline'} />
 
       {isOnline ? (
-        <EkoOnlineSection onGoOffline={toggleOnlineStatus} />
+        <EkoOnlineSection
+          activeTrip={activeTrip}
+          actionLoading={actionLoading}
+          handleTripAction={handleTripAction}
+          callCustomer={callCustomer}
+          callStore={callStore}
+          onGoOffline={toggleOnlineStatus}
+        />
       ) : (
         <EkoOfflineSection onGoOnline={toggleOnlineStatus} />
       )}

@@ -14,20 +14,18 @@ interface QuickAction {
 interface HomeQuickActionsSectionProps {
   goToEarnings: () => void;
   goToTrips: () => void;
-  goToTripHistory: () => void;
   goToProfile: () => void;
 }
 
 const HomeQuickActionsSection: React.FC<HomeQuickActionsSectionProps> = ({
   goToEarnings,
   goToTrips,
-  goToTripHistory,
   goToProfile,
 }) => {
   const actions: QuickAction[] = [
     {emoji: '♻️', label: HOME_STRINGS.LOG_PLASTIC, bg: Colors.accent + '15', onPress: goToTrips},
     {emoji: '💰', label: HOME_STRINGS.MY_EARNINGS, bg: Colors.gold + '20', onPress: goToEarnings},
-    {emoji: '🗺️', label: HOME_STRINGS.TRIP_HISTORY, bg: Colors.primary + '12', onPress: goToTripHistory},
+    {emoji: '🗺️', label: HOME_STRINGS.TRIP_HISTORY, bg: Colors.primary + '12', onPress: goToTrips},
     {emoji: '👤', label: HOME_STRINGS.LEADERBOARD, bg: Colors.cta + '18', onPress: goToProfile},
   ];
 

@@ -45,7 +45,7 @@ interface HomeComponentProps {
   handleAcceptOrder: (trip: Trip) => void;
   handleDeclineOrder: () => void;
   goToTrips: () => void;
-  goToTripHistory: () => void;
+  goToEkoStatus: () => void;
   goToEarnings: () => void;
   goToProfile: () => void;
 }
@@ -99,10 +99,9 @@ const HomeComponent: React.FC<HomeComponentProps> = props => {
         <HomeActiveOrderSection
           activeTrip={props.activeTrip}
           isOnline={props.isOnline}
-          onViewOrder={props.goToTrips}
+          onViewOrder={props.goToEkoStatus}
         />
         <HomeQuickActionsSection
-          goToTripHistory={props.goToTripHistory}
           goToEarnings={props.goToEarnings}
           goToTrips={props.goToTrips}
           goToProfile={props.goToProfile}

@@ -3,8 +3,8 @@ import {useTripsHook} from './use-trips-hook';
 import TripsComponent from './Trips.component';
 
 const TripsContainer: React.FC = () => {
-  const hookData = useTripsHook();
-  return <TripsComponent {...hookData} />;
+  const {tripHistory} = useTripsHook();
+  return <TripsComponent tripHistory={tripHistory} />;
 };
 
 export default TripsContainer;

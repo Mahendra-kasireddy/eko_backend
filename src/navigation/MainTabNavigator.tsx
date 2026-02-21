@@ -120,6 +120,8 @@ const CustomTabBar: React.FC<TabBarProps> = ({state, navigation}) => {
 
           return (
             <View key={route.key} style={tabStyles.ekoWrapper}>
+              {/* Active indicator bar — same as regular tabs */}
+              {isFocused && <View style={tabStyles.activeIndicator} />}
               {/* Pulse ring — only visible when pendingTrip is set */}
               <Animated.View
                 style={[
