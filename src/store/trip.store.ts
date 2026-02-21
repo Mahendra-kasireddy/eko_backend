@@ -12,6 +12,7 @@ interface TripState {
   setPendingTrip: (trip: Trip | null) => void;
   updateTripStatus: (status: Trip['status']) => void;
   setPlasticCollection: (collection: PlasticCollection) => void;
+  markPlasticSubmitted: (tripId: string) => void;
   completeTrip: () => void;
 }
 
@@ -36,6 +37,21 @@ export const useTripStore = create<TripState>(set => ({
       activeTrip: state.activeTrip
         ? {...state.activeTrip, plasticCollection: collection}
         : null,
+    })),
+  markPlasticSubmitted: (tripId: string) =>
+    set(state => ({
+      tripHistory: state.tripHistory.map(trip =>
+        trip.id === tripId && trip.plasticCollection
+          ? {
+              ...trip,
+              plasticCollection: {
+                ...trip.plasticCollection,
+                status: 'submitted' as const,
+                submittedAt: new Date().toISOString(),
+              },
+            }
+          : trip,
+      ),
     })),
   completeTrip: () =>
     set(state => ({

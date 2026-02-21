@@ -18,6 +18,9 @@ interface EkoStatusComponentProps {
   collectPlasticAndDeliver: (weightKg: number) => void;
   callCustomer: () => void;
   callStore: () => void;
+  pendingPlasticTrips: Trip[];
+  pendingPlasticKg: number;
+  submitAllPendingPlastic: () => void;
 }
 
 const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
@@ -29,6 +32,9 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
   collectPlasticAndDeliver,
   callCustomer,
   callStore,
+  pendingPlasticTrips,
+  pendingPlasticKg,
+  submitAllPendingPlastic,
 }) => {
   useStatusBarStyle('dark-content', Colors.card);
 
@@ -46,6 +52,9 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
           callCustomer={callCustomer}
           callStore={callStore}
           onGoOffline={toggleOnlineStatus}
+          pendingPlasticTrips={pendingPlasticTrips}
+          pendingPlasticKg={pendingPlasticKg}
+          submitAllPendingPlastic={submitAllPendingPlastic}
         />
       ) : (
         <EkoOfflineSection onGoOnline={toggleOnlineStatus} />

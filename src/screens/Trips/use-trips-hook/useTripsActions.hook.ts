@@ -4,6 +4,7 @@ import {Trip, PlasticCollection} from '../../../types/trip.types';
 import {
   updateTripStatus as apiUpdateTrip,
   submitPlasticCollection,
+  submitPlasticToStore as apiSubmitPlasticToStore,
 } from '../../../services/trip.service';
 import {useTripStore} from '../../../store/trip.store';
 
@@ -17,6 +18,7 @@ export const useTripsActions = (
   const [actionLoading, setActionLoading] = useState(false);
   const completeTrip = useTripStore(s => s.completeTrip);
   const setPlasticCollection = useTripStore(s => s.setPlasticCollection);
+  const markPlasticSubmitted = useTripStore(s => s.markPlasticSubmitted);
 
   const handleTripAction = async () => {
     if (!activeTrip) return;
@@ -104,9 +106,22 @@ export const useTripsActions = (
     }
   };
 
+  const submitPlasticToStore = async (tripId: string) => {
+    setActionLoading(true);
+    try {
+      await apiSubmitPlasticToStore(tripId);
+      markPlasticSubmitted(tripId);
+    } catch {
+      Alert.alert('Error', 'Failed to submit plastic. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   return {
     handleTripAction,
     collectPlasticAndDeliver,
+    submitPlasticToStore,
     callCustomer,
     callStore,
     actionLoading,

@@ -170,6 +170,14 @@ export const submitPlasticCollection = async (
   return {success: true};
 };
 
+export const submitPlasticToStore = async (
+  tripId: string,
+): Promise<{success: boolean}> => {
+  await new Promise<void>(resolve => setTimeout(resolve, 500));
+  console.log('Plastic submitted to store for trip:', tripId);
+  return {success: true};
+};
+
 export const updateTripStatus = async (
   tripId: string,
   status: Trip['status'],
