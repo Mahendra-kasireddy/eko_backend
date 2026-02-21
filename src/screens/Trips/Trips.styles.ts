@@ -328,6 +328,126 @@ export const styles = StyleSheet.create({
     color: Colors.text.primary,
   },
 
+  // Plastic collection card
+  plasticCard: {
+    backgroundColor: Colors.card,
+    borderRadius: 18,
+    padding: 18,
+    borderWidth: 1.5,
+    borderColor: Colors.accent,
+    gap: 14,
+  },
+  plasticCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  plasticCardHeaderText: {flex: 1},
+  plasticCardTitle: {
+    fontSize: FontSize.base,
+    fontWeight: FontWeight.extraBold,
+    color: Colors.text.primary,
+  },
+  plasticCardSubtitle: {
+    fontSize: FontSize.xs,
+    color: Colors.text.secondary,
+    marginTop: 2,
+  },
+  weightRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    gap: 10,
+  },
+  weightInput: {
+    flex: 1,
+    fontSize: FontSize.xxl,
+    fontWeight: FontWeight.extraBold,
+    color: Colors.text.primary,
+    padding: 0,
+  },
+  weightUnit: {
+    fontSize: FontSize.lg,
+    color: Colors.text.muted,
+    fontWeight: FontWeight.semiBold,
+  },
+  noPlasticRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  noPlasticCheckbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: Colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noPlasticCheckboxActive: {
+    backgroundColor: Colors.accent,
+    borderColor: Colors.accent,
+  },
+  noPlasticLabel: {
+    fontSize: FontSize.sm,
+    color: Colors.text.secondary,
+  },
+  incentiveRow: {
+    flexDirection: 'row',
+    backgroundColor: Colors.primary + '0A',
+    borderRadius: 12,
+    padding: 12,
+  },
+  incentiveItem: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 2,
+  },
+  incentiveDivider: {
+    width: 1,
+    backgroundColor: Colors.borderLight,
+    marginVertical: 4,
+  },
+  incentiveValue: {
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.extraBold,
+    color: Colors.primary,
+  },
+  incentiveLabel: {
+    fontSize: FontSize.xs,
+    color: Colors.text.muted,
+    textAlign: 'center',
+  },
+  collectBtn: {
+    backgroundColor: Colors.accent,
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    shadowColor: Colors.accent,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  collectBtnDisabled: {
+    opacity: 0.4,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  collectBtnText: {
+    color: Colors.text.inverse,
+    fontWeight: FontWeight.bold,
+    fontSize: FontSize.md,
+    letterSpacing: 0.3,
+  },
+
   // Empty
   emptyContainer: {
     flex: 1,

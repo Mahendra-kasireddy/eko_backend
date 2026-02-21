@@ -161,6 +161,15 @@ export const simulateNewOrderAssignment = async (): Promise<Trip> => {
   };
 };
 
+export const submitPlasticCollection = async (
+  tripId: string,
+  weightKg: number,
+): Promise<{success: boolean}> => {
+  await new Promise<void>(resolve => setTimeout(resolve, 400));
+  console.log('Plastic collection submitted:', tripId, weightKg, 'kg');
+  return {success: true};
+};
+
 export const updateTripStatus = async (
   tripId: string,
   status: Trip['status'],

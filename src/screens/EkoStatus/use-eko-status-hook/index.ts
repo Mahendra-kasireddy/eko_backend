@@ -7,8 +7,13 @@ export const useEkoStatusHook = () => {
   const toggleOnlineStatus = useRiderStore(s => s.toggleOnlineStatus);
   const activeTrip = useTripStore(s => s.activeTrip);
   const updateTripStatus = useTripStore(s => s.updateTripStatus);
-  const {handleTripAction, callCustomer, callStore, actionLoading} =
-    useTripsActions(activeTrip, updateTripStatus);
+  const {
+    handleTripAction,
+    collectPlasticAndDeliver,
+    callCustomer,
+    callStore,
+    actionLoading,
+  } = useTripsActions(activeTrip, updateTripStatus);
 
   return {
     isOnline,
@@ -16,6 +21,7 @@ export const useEkoStatusHook = () => {
     activeTrip,
     actionLoading,
     handleTripAction,
+    collectPlasticAndDeliver,
     callCustomer,
     callStore,
   };

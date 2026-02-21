@@ -15,6 +15,7 @@ interface EkoStatusComponentProps {
   activeTrip: Trip | null;
   actionLoading: boolean;
   handleTripAction: () => void;
+  collectPlasticAndDeliver: (weightKg: number) => void;
   callCustomer: () => void;
   callStore: () => void;
 }
@@ -25,6 +26,7 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
   activeTrip,
   actionLoading,
   handleTripAction,
+  collectPlasticAndDeliver,
   callCustomer,
   callStore,
 }) => {
@@ -40,6 +42,7 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
           activeTrip={activeTrip}
           actionLoading={actionLoading}
           handleTripAction={handleTripAction}
+          collectPlasticAndDeliver={collectPlasticAndDeliver}
           callCustomer={callCustomer}
           callStore={callStore}
           onGoOffline={toggleOnlineStatus}

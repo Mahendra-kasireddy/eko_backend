@@ -12,6 +12,7 @@ interface EkoOnlineSectionProps {
   activeTrip: Trip | null;
   actionLoading: boolean;
   handleTripAction: () => void;
+  collectPlasticAndDeliver: (weightKg: number) => void;
   callCustomer: () => void;
   callStore: () => void;
   onGoOffline: () => void;
@@ -77,6 +78,7 @@ const EkoOnlineSection: React.FC<EkoOnlineSectionProps> = ({
   activeTrip,
   actionLoading,
   handleTripAction,
+  collectPlasticAndDeliver,
   callCustomer,
   callStore,
   onGoOffline,
@@ -93,7 +95,7 @@ const EkoOnlineSection: React.FC<EkoOnlineSectionProps> = ({
         trip={activeTrip}
         actionLoading={actionLoading}
         onTripAction={handleTripAction}
-        onCollectPlastic={() => {}}
+        onCollectPlasticAndDeliver={collectPlasticAndDeliver}
         onCallCustomer={callCustomer}
         onCallStore={callStore}
       />
