@@ -9,8 +9,8 @@ export type AuthStackParamList = {
 
 export type MainTabParamList = {
   Home: undefined;
-  Trips: undefined;
-  Plastic: undefined;
+  Trips: {tab?: 'active' | 'history'} | undefined;
+  EkoStatus: undefined;
   Earnings: undefined;
   Profile: undefined;
 };

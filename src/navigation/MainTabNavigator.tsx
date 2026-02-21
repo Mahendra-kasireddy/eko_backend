@@ -1,16 +1,23 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MainTabParamList} from './navigation.types';
 import {Colors} from '../constants/colors';
 import {FontSize, FontWeight} from '../constants/fonts';
 import {useRiderStore} from '../store/rider.store';
+import {useTripStore} from '../store/trip.store';
 
 // Screens
 import HomeContainer from '../screens/Home/Home.container';
 import TripsContainer from '../screens/Trips/Trips.container';
-import PlasticContainer from '../screens/Plastic/Plastic.container';
+import EkoStatusContainer from '../screens/EkoStatus/EkoStatus.container';
 import EarningsContainer from '../screens/Earnings/Earnings.container';
 import ProfileContainer from '../screens/Profile/Profile.container';
 
@@ -45,13 +52,56 @@ const TAB_LABELS: Record<string, string> = {
 
 const CustomTabBar: React.FC<TabBarProps> = ({state, navigation}) => {
   const isOnline = useRiderStore(s => s.isOnline);
-  const toggleOnlineStatus = useRiderStore(s => s.toggleOnlineStatus);
+  const pendingTrip = useTripStore(s => s.pendingTrip);
+
+  // Pulse animation — fires when there is an incoming order
+  const pulseScale = useRef(new Animated.Value(1)).current;
+  const pulseOpacity = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef<Animated.CompositeAnimation | null>(null);
+
+  useEffect(() => {
+    if (pendingTrip) {
+      pulseAnim.current = Animated.loop(
+        Animated.parallel([
+          Animated.sequence([
+            Animated.timing(pulseScale, {
+              toValue: 1.9,
+              duration: 900,
+              useNativeDriver: true,
+            }),
+            Animated.timing(pulseScale, {
+              toValue: 1,
+              duration: 0,
+              useNativeDriver: true,
+            }),
+          ]),
+          Animated.sequence([
+            Animated.timing(pulseOpacity, {
+              toValue: 0.45,
+              duration: 0,
+              useNativeDriver: true,
+            }),
+            Animated.timing(pulseOpacity, {
+              toValue: 0,
+              duration: 900,
+              useNativeDriver: true,
+            }),
+          ]),
+        ]),
+      );
+      pulseAnim.current.start();
+    } else {
+      pulseAnim.current?.stop();
+      pulseScale.setValue(1);
+      pulseOpacity.setValue(0);
+    }
+  }, [!!pendingTrip, pulseScale, pulseOpacity]);
 
   return (
     <View style={tabStyles.container}>
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
-        const isCenter = route.name === 'Plastic';
+        const isCenter = route.name === 'EkoStatus';
 
         const onPress = () => {
           const event = navigation.emit({
@@ -64,36 +114,43 @@ const CustomTabBar: React.FC<TabBarProps> = ({state, navigation}) => {
           }
         };
 
+        // ── Center FAB button ──────────────────────────────────────
         if (isCenter) {
+          const circleBg = isOnline ? Colors.primary : '#5A6875';
+
           return (
             <View key={route.key} style={tabStyles.ekoWrapper}>
-              <TouchableOpacity
-                onPress={() => {
-                  toggleOnlineStatus();
-                  onPress();
-                }}
-                activeOpacity={0.82}
+              {/* Pulse ring — only visible when pendingTrip is set */}
+              <Animated.View
                 style={[
-                  tabStyles.ekoCircle,
-                  {backgroundColor: isOnline ? Colors.primary : '#5A6875'},
-                ]}>
-                <Text style={tabStyles.ekoTitle}>EKO</Text>
-                <View style={tabStyles.ekoStatusRow}>
-                  <View
-                    style={[
-                      tabStyles.ekoDot,
-                      {backgroundColor: isOnline ? Colors.online : '#9AA4AE'},
-                    ]}
-                  />
-                  <Text style={tabStyles.ekoStatusText}>
-                    {isOnline ? 'Online' : 'Offline'}
-                  </Text>
-                </View>
+                  tabStyles.pulseRing,
+                  {
+                    transform: [{scale: pulseScale}],
+                    opacity: pulseOpacity,
+                    backgroundColor: Colors.primary,
+                  },
+                ]}
+              />
+              <TouchableOpacity
+                onPress={onPress}
+                activeOpacity={0.82}
+                style={[tabStyles.ekoCircle, {backgroundColor: circleBg}]}>
+                <Text style={tabStyles.ekoCircleText}>
+                  {isOnline ? 'Eko\nOnline' : 'Eko\nOffline'}
+                </Text>
               </TouchableOpacity>
+              <Text
+                style={[
+                  tabStyles.ekoLabel,
+                  {color: isOnline ? Colors.primary : Colors.text.muted},
+                ]}>
+                {isOnline ? 'Eko Online' : 'Eko Offline'}
+              </Text>
             </View>
           );
         }
 
+        // ── Regular tab item ───────────────────────────────────────
         return (
           <TouchableOpacity
             key={route.key}
@@ -175,10 +232,25 @@ const tabStyles = StyleSheet.create({
     backgroundColor: Colors.primary + '12',
   },
   label: {fontSize: FontSize.xs, letterSpacing: 0.2},
+
+  // ── Center FAB ────────────────────────────────────────────────
   ekoWrapper: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  ekoLabel: {
+    position: 'absolute',
+    bottom: 6,
+    fontSize: FontSize.xs,
+    fontWeight: FontWeight.semiBold,
+    letterSpacing: 0.2,
+  },
+  pulseRing: {
+    position: 'absolute',
+    width: 66,
+    height: 66,
+    borderRadius: 33,
   },
   ekoCircle: {
     width: 66,
@@ -195,28 +267,13 @@ const tabStyles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 12,
   },
-  ekoTitle: {
+  ekoCircleText: {
     color: Colors.text.inverse,
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: FontWeight.extraBold,
-    letterSpacing: 1.5,
-  },
-  ekoStatusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 2,
-    gap: 3,
-  },
-  ekoDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 3,
-  },
-  ekoStatusText: {
-    color: 'rgba(255,255,255,0.85)',
-    fontSize: 7,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 0.5,
+    textAlign: 'center',
+    letterSpacing: 0.3,
+    lineHeight: 15,
   },
 });
 
@@ -226,7 +283,7 @@ const MainTabNavigator: React.FC = () => (
     screenOptions={{headerShown: false}}>
     <Tab.Screen name="Home" component={HomeContainer} />
     <Tab.Screen name="Trips" component={TripsContainer} />
-    <Tab.Screen name="Plastic" component={PlasticContainer} />
+    <Tab.Screen name="EkoStatus" component={EkoStatusContainer} />
     <Tab.Screen name="Earnings" component={EarningsContainer} />
     <Tab.Screen name="Profile" component={ProfileContainer} />
   </Tab.Navigator>

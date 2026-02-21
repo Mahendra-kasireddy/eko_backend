@@ -8,9 +8,9 @@ export const useHomeNavigation = () => {
   const navigation = useNavigation<HomeNavProp>();
 
   const goToTrips = () => navigation.navigate('Trips');
-  const goToPlastic = () => navigation.navigate('Plastic');
+  const goToTripHistory = () => navigation.navigate('Trips', {tab: 'history'});
   const goToEarnings = () => navigation.navigate('Earnings');
   const goToProfile = () => navigation.navigate('Profile');
 
-  return {goToTrips, goToPlastic, goToEarnings, goToProfile};
+  return {goToTrips, goToTripHistory, goToEarnings, goToProfile};
 };

@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView, TouchableOpacity, StatusBar} from 'react-native';
+import {useRoute, RouteProp} from '@react-navigation/native';
+import {MainTabParamList} from '../../types/navigation.types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './Trips.styles';
 import ScreenHeader from '../../components/ScreenHeader/ScreenHeader';
@@ -24,7 +26,14 @@ type TabKey = 'active' | 'history';
 
 const TripsComponent: React.FC<TripsComponentProps> = props => {
   useStatusBarStyle('dark-content', Colors.card);
+  const route = useRoute<RouteProp<MainTabParamList, 'Trips'>>();
   const [activeTab, setActiveTab] = useState<TabKey>('active');
+
+  useEffect(() => {
+    if (route.params?.tab) {
+      setActiveTab(route.params.tab);
+    }
+  }, [route.params?.tab]);
 
   const tabBar = (
     <View style={styles.tabBar}>
