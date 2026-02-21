@@ -7,14 +7,15 @@ type OTPRouteProp = RouteProp<AuthStackParamList, 'OTP'>;
 
 export const useOTPHook = () => {
   const route = useRoute<OTPRouteProp>();
-  const {phone} = route.params;
+  const {phone, isSignup = false} = route.params;
   const data = useOTPData();
   const actions = useOTPActions(
     data.otp,
     data.setOtp,
     phone,
+    isSignup,
     data.setCanResend,
     data.setResendTimer,
   );
-  return {phone, ...data, ...actions};
+  return {phone, isSignup, ...data, ...actions};
 };

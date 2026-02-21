@@ -18,6 +18,44 @@ export const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 10,
   },
+  // ── Avatar picker ─────────────────────────────────────────────
+  avatarWrapper: {
+    alignSelf: 'center',
+    marginBottom: 5,
+    marginTop: 20,
+  },
+  avatarPlaceholder: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2.5,
+    borderColor: 'rgba(255,255,255,0.4)',
+    borderStyle: 'dashed',
+  },
+  avatarImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 2.5,
+    borderColor: 'rgba(255,255,255,0.6)',
+  },
+  avatarCameraBtn: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: Colors.accent,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: Colors.primary,
+  },
+
   backBtn: {
     width: 38,
     height: 38,
@@ -94,6 +132,52 @@ export const styles = StyleSheet.create({
   inputFocused: {
     borderColor: Colors.primary,
     backgroundColor: Colors.card,
+  },
+
+  // ── Phone field ───────────────────────────────────────────────
+  phoneRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.card,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    overflow: 'hidden',
+  },
+  countryCode: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
+    paddingVertical: 15,
+    backgroundColor: Colors.inputBg,
+    borderRightWidth: 1,
+    borderRightColor: Colors.border,
+    gap: 6,
+  },
+  flagText: {fontSize: 16},
+  countryCodeText: {
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.text.primary,
+  },
+  phoneInput: {
+    flex: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 15,
+    fontSize: 15,
+    color: Colors.text.primary,
+    fontWeight: FontWeight.semiBold,
+    letterSpacing: 1.5,
+  },
+  inputReadOnly: {
+    borderColor: Colors.accent + '40',
+    backgroundColor: '#F0FDF4',
+  },
+  verifiedTag: {
+    color: Colors.accent,
+    fontSize: 11,
+    fontWeight: FontWeight.bold,
+    paddingRight: 12,
   },
 
   // ── Vehicle type selector ─────────────────────────────────────

@@ -4,8 +4,8 @@ export type AuthStackParamList = {
   Splash: undefined;
   Onboarding: undefined;
   Login: undefined;
-  OTP: {phone: string};
-  Signup: {phone: string};
+  OTP: {phone: string; isSignup?: boolean};
+  Signup: {phone?: string};
 };
 
 export type MainTabParamList = {

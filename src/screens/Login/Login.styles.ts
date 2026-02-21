@@ -133,4 +133,36 @@ export const styles = StyleSheet.create({
     color: Colors.primary,
     fontWeight: FontWeight.semiBold,
   },
+  dividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 24,
+    marginBottom: 16,
+    gap: 10,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: Colors.border,
+  },
+  dividerText: {
+    fontSize: FontSize.xs,
+    color: Colors.text.muted,
+    fontWeight: FontWeight.medium,
+  },
+  signupRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  signupText: {
+    fontSize: FontSize.sm,
+    color: Colors.text.secondary,
+  },
+  signupLink: {
+    fontSize: FontSize.sm,
+    color: Colors.primary,
+    fontWeight: FontWeight.bold,
+  },
 });

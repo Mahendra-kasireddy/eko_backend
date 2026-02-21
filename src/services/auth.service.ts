@@ -7,6 +7,7 @@ export interface RegisterRiderPayload {
   vehicleType: VehicleType;
   vehicleNumber: string;
   city: string;
+  profilePhoto?: string;
 }
 
 export interface SendOtpResponse {
@@ -98,6 +99,7 @@ export const registerRider = async (
       totalDeliveries: 0,
       joinedAt: new Date().toISOString(),
       city: payload.city,
+      profilePhoto: payload.profilePhoto,
     },
   };
 };

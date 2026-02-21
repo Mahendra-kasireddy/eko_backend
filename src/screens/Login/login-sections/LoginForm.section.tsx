@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {styles} from '../Login.styles';
 import {LOGIN_STRINGS} from '../Login.constants';
 import EkoButton from '../../../components/EkoButton/EkoButton';
@@ -12,6 +12,7 @@ interface LoginFormSectionProps {
   setIsFocused: (v: boolean) => void;
   handlePhoneChange: (v: string) => void;
   handleContinue: () => void;
+  handleSignUp: () => void;
 }
 
 const LoginFormSection: React.FC<LoginFormSectionProps> = ({
@@ -22,6 +23,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   setIsFocused,
   handlePhoneChange,
   handleContinue,
+  handleSignUp,
 }) => (
   <View style={styles.body}>
     <Text style={styles.label}>Mobile Number</Text>
@@ -58,6 +60,21 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
       <Text style={styles.termsLink}>{LOGIN_STRINGS.TERMS_LINK}</Text>
       <Text style={styles.termsText}>{LOGIN_STRINGS.TERMS_AND}</Text>
       <Text style={styles.termsLink}>{LOGIN_STRINGS.PRIVACY_LINK}</Text>
+    </View>
+
+    {/* Divider */}
+    <View style={styles.dividerRow}>
+      <View style={styles.dividerLine} />
+      <Text style={styles.dividerText}>OR</Text>
+      <View style={styles.dividerLine} />
+    </View>
+
+    {/* Sign Up link */}
+    <View style={styles.signupRow}>
+      <Text style={styles.signupText}>New Rider?</Text>
+      <TouchableOpacity onPress={handleSignUp} activeOpacity={0.7}>
+        <Text style={styles.signupLink}>Create Account →</Text>
+      </TouchableOpacity>
     </View>
   </View>
 );

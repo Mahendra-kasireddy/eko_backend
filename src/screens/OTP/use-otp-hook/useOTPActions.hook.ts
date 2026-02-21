@@ -12,6 +12,7 @@ export const useOTPActions = (
   otp: string[],
   setOtp: (v: string[]) => void,
   phone: string,
+  isSignup: boolean,
   setCanResend: (v: boolean) => void,
   setResendTimer: (v: number) => void,
 ) => {
@@ -27,7 +28,7 @@ export const useOTPActions = (
     setError('');
     try {
       const res = await verifyOtp(phone, code);
-      if (res.isNewUser) {
+      if (isSignup || res.isNewUser) {
         navigation.navigate('Signup', {phone});
       } else {
         setRider(res.rider);

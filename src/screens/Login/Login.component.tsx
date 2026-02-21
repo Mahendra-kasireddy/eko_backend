@@ -21,11 +21,12 @@ interface LoginComponentProps {
   setIsFocused: (v: boolean) => void;
   handlePhoneChange: (v: string) => void;
   handleContinue: () => void;
+  handleSignUp: () => void;
 }
 
 const ease = Easing.out(Easing.quad);
 
-const LoginComponent: React.FC<LoginComponentProps> = props => {
+const LoginComponent: React.FC<LoginComponentProps> = (props) => {
   const insets = useSafeAreaInsets();
 
   // Animated values for header compression when keyboard opens

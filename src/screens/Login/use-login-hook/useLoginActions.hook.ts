@@ -31,6 +31,8 @@ export const useLoginActions = () => {
     }
   };
 
+  const handleSignUp = () => navigation.navigate('Signup', {phone: phone || undefined});
+
   const handlePhoneChange = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 10);
     setPhone(digits);
@@ -44,6 +46,7 @@ export const useLoginActions = () => {
     isFocused,
     setIsFocused,
     handleContinue,
+    handleSignUp,
     handlePhoneChange,
   };
 };

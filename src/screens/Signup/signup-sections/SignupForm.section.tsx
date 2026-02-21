@@ -20,6 +20,9 @@ const VEHICLES: {type: VehicleType; icon: string; label: string}[] = [
 ];
 
 interface SignupFormProps {
+  phone: string;
+  setPhone: (v: string) => void;
+  phoneReadOnly: boolean;
   name: string;
   setName: (v: string) => void;
   email: string;
@@ -50,6 +53,7 @@ const Field: React.FC<{
 );
 
 const SignupFormSection: React.FC<SignupFormProps> = ({
+  phone, setPhone, phoneReadOnly,
   name, setName,
   email, setEmail,
   vehicleType, setVehicleType,
@@ -60,6 +64,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
   onSubmit,
 }) => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const nameRef = useRef<TextInputType>(null);
   const emailRef = useRef<TextInputType>(null);
   const vehicleNumRef = useRef<TextInputType>(null);
   const cityRef = useRef<TextInputType>(null);
@@ -74,9 +79,41 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
 
+        {/* Mobile Number */}
+        <Field label="Mobile Number">
+          <View style={[
+            styles.phoneRow,
+            focusedField === 'phone' && !phoneReadOnly && styles.inputFocused,
+            phoneReadOnly && styles.inputReadOnly,
+          ]}>
+            <View style={styles.countryCode}>
+              <Text style={styles.flagText}>🇮🇳</Text>
+              <Text style={styles.countryCodeText}>+91</Text>
+            </View>
+            <TextInput
+              style={styles.phoneInput}
+              placeholder="10-digit mobile number"
+              placeholderTextColor="#C4C9D4"
+              keyboardType="phone-pad"
+              maxLength={10}
+              value={phone}
+              onChangeText={v => setPhone(v.replace(/\D/g, '').slice(0, 10))}
+              editable={!phoneReadOnly}
+              returnKeyType="next"
+              onFocus={() => setFocusedField('phone')}
+              onBlur={() => setFocusedField(null)}
+              onSubmitEditing={() => nameRef.current?.focus()}
+            />
+            {phoneReadOnly && (
+              <Text style={styles.verifiedTag}>✓ Verified</Text>
+            )}
+          </View>
+        </Field>
+
         {/* Full Name */}
         <Field label="Full Name">
           <TextInput
+            ref={nameRef}
             style={[styles.input, focusedField === 'name' && styles.inputFocused]}
             placeholder="Ravi Kumar"
             placeholderTextColor="#C4C9D4"
