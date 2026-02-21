@@ -22,7 +22,14 @@ export const useHomeData = () => {
           fetchHomeTripData(),
         ]);
         setStats(statsData);
-        setActiveTrip(tripData);
+        if (tripData) {
+          // Read current state at resolve time to avoid restoring a completed trip
+          const {activeTrip: current, tripHistory} = useTripStore.getState();
+          const alreadyCompleted = tripHistory.some(t => t.id === tripData.id);
+          if (!current && !alreadyCompleted) {
+            setActiveTrip(tripData);
+          }
+        }
       } catch {
         setError('Failed to load data');
       } finally {
