@@ -10,6 +10,7 @@ import {
 import {Colors} from '../../../constants/colors';
 import {FontSize, FontWeight} from '../../../constants/fonts';
 import {Trip} from '../../../types/trip.types';
+import {useTranslation} from '../../../i18n';
 
 interface HomeNewOrderProps {
   trip: Trip;
@@ -19,11 +20,8 @@ interface HomeNewOrderProps {
 
 const COUNTDOWN = 15;
 
-const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
-  trip,
-  onAccept,
-  onDecline,
-}) => {
+const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({trip, onAccept, onDecline}) => {
+  const {t} = useTranslation();
   const [seconds, setSeconds] = useState(COUNTDOWN);
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
@@ -63,17 +61,15 @@ const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
         <View style={s.sheet}>
           {/* Header */}
           <View style={s.headerRow}>
-            <Text style={s.newTag}>NEW ORDER</Text>
+            <Text style={s.newTag}>{t('order.new_order')}</Text>
             <Animated.View
               style={[s.countdownRing, {transform: [{scale: pulseAnim}]}]}>
               <Text style={s.countdownNum}>{seconds}</Text>
             </Animated.View>
           </View>
 
-          <Text style={s.title}>New Delivery Assigned!</Text>
-          <Text style={s.subtitle}>
-            Accept within {seconds}s to start the trip
-          </Text>
+          <Text style={s.title}>{t('order.new_delivery')}</Text>
+          <Text style={s.subtitle}>{t('order.accept_within', {seconds})}</Text>
 
           {/* Progress bar */}
           <View style={s.progressBg}>
@@ -91,7 +87,7 @@ const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
               </View>
               <View style={s.routeLabels}>
                 <View>
-                  <Text style={s.stopLabel}>PICKUP</Text>
+                  <Text style={s.stopLabel}>{t('order.pickup')}</Text>
                   <Text style={s.stopName} numberOfLines={1}>
                     {trip.store.name}
                   </Text>
@@ -105,7 +101,7 @@ const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
                   </Text>
                 </View>
                 <View>
-                  <Text style={s.stopLabel}>DELIVERY</Text>
+                  <Text style={s.stopLabel}>{t('order.delivery')}</Text>
                   <Text style={s.stopName} numberOfLines={1}>
                     {trip.customer.name}
                   </Text>
@@ -120,17 +116,17 @@ const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
           {/* Earnings row */}
           <View style={s.earningsRow}>
             <View>
-              <Text style={s.earningsLabel}>Delivery Fee</Text>
+              <Text style={s.earningsLabel}>{t('order.delivery_fee')}</Text>
               <Text style={s.earningsValue}>₹{trip.deliveryFee}</Text>
             </View>
             <View style={s.separator} />
             <View>
-              <Text style={s.earningsLabel}>Order Value</Text>
+              <Text style={s.earningsLabel}>{t('order.order_value')}</Text>
               <Text style={s.earningsValue}>₹{trip.totalAmount}</Text>
             </View>
             <View style={s.separator} />
             <View>
-              <Text style={s.earningsLabel}>Items</Text>
+              <Text style={s.earningsLabel}>{t('order.items')}</Text>
               <Text style={s.earningsValue}>{trip.items.length}</Text>
             </View>
           </View>
@@ -141,13 +137,13 @@ const HomeNewOrderSection: React.FC<HomeNewOrderProps> = ({
               style={s.declineBtn}
               onPress={onDecline}
               activeOpacity={0.8}>
-              <Text style={s.declineBtnText}>✕  Decline</Text>
+              <Text style={s.declineBtnText}>{t('order.decline')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={s.acceptBtn}
               onPress={() => onAccept(trip)}
               activeOpacity={0.85}>
-              <Text style={s.acceptBtnText}>✓  Accept</Text>
+              <Text style={s.acceptBtnText}>{t('order.accept')}</Text>
             </TouchableOpacity>
           </View>
         </View>

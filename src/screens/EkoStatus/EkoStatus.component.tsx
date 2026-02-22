@@ -8,6 +8,7 @@ import ScreenHeader from '../../components/ScreenHeader/ScreenHeader';
 import EkoOfflineSection from './eko-status-sections/EkoOffline.section';
 import EkoOnlineSection from './eko-status-sections/EkoOnline.section';
 import {Trip} from '../../types/trip.types';
+import {useTranslation} from '../../i18n';
 
 interface EkoStatusComponentProps {
   isOnline: boolean;
@@ -37,11 +38,12 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
   submitAllPendingPlastic,
 }) => {
   useStatusBarStyle('dark-content', Colors.card);
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={Colors.card} />
-      <ScreenHeader title={isOnline ? 'EKO Online' : 'EKO Offline'} centered />
+      <ScreenHeader title={isOnline ? t('eko_status.online') : t('eko_status.offline')} centered />
 
       {isOnline ? (
         <EkoOnlineSection

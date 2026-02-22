@@ -3,34 +3,35 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Colors} from '../../../constants/colors';
 import {FontSize, FontWeight} from '../../../constants/fonts';
 import {Trip} from '../../../types/trip.types';
+import {useTranslation} from '../../../i18n';
 
 interface TripHistorySectionProps {
   trips: Trip[];
 }
 
-const formatTime = (iso: string): string => {
-  const d = new Date(iso);
-  const now = new Date();
-  const diffMs = now.getTime() - d.getTime();
-  const diffH = Math.floor(diffMs / (1000 * 60 * 60));
-  if (diffH < 1) {
-    const diffM = Math.floor(diffMs / (1000 * 60));
-    return `${diffM}m ago`;
-  }
-  if (diffH < 24) {return `${diffH}h ago`;}
-  const diffD = Math.floor(diffH / 24);
-  return diffD === 1 ? 'Yesterday' : `${diffD} days ago`;
-};
-
 const TripHistorySection: React.FC<TripHistorySectionProps> = ({trips}) => {
+  const {t} = useTranslation();
+
+  const formatTime = (iso: string): string => {
+    const d = new Date(iso);
+    const now = new Date();
+    const diffMs = now.getTime() - d.getTime();
+    const diffH = Math.floor(diffMs / (1000 * 60 * 60));
+    if (diffH < 1) {
+      const diffM = Math.floor(diffMs / (1000 * 60));
+      return t('trips.m_ago', {min: diffM});
+    }
+    if (diffH < 24) { return t('trips.h_ago', {h: diffH}); }
+    const diffD = Math.floor(diffH / 24);
+    return diffD === 1 ? t('trips.yesterday') : t('trips.days_ago', {days: diffD});
+  };
+
   if (trips.length === 0) {
     return (
       <View style={s.empty}>
         <Text style={s.emptyEmoji}>📦</Text>
-        <Text style={s.emptyTitle}>No past orders yet</Text>
-        <Text style={s.emptySubtitle}>
-          Your completed deliveries will appear here
-        </Text>
+        <Text style={s.emptyTitle}>{t('trips.no_trips')}</Text>
+        <Text style={s.emptySubtitle}>{t('trips.no_trips_hint')}</Text>
       </View>
     );
   }
@@ -51,7 +52,7 @@ const TripHistorySection: React.FC<TripHistorySectionProps> = ({trips}) => {
               <Text style={s.timeAgo}>{formatTime(trip.updatedAt)}</Text>
             </View>
             <View style={s.completedBadge}>
-              <Text style={s.completedText}>✓ Done</Text>
+              <Text style={s.completedText}>{t('trips.done')}</Text>
             </View>
           </View>
 
@@ -67,22 +68,22 @@ const TripHistorySection: React.FC<TripHistorySectionProps> = ({trips}) => {
           <View style={s.statsRow}>
             <View style={s.stat}>
               <Text style={s.statValue}>₹{trip.deliveryFee}</Text>
-              <Text style={s.statLabel}>Earned</Text>
+              <Text style={s.statLabel}>{t('trips.earned')}</Text>
             </View>
             <View style={s.statDivider} />
             <View style={s.stat}>
               <Text style={s.statValue}>{trip.distance} km</Text>
-              <Text style={s.statLabel}>Distance</Text>
+              <Text style={s.statLabel}>{t('trips.distance')}</Text>
             </View>
             <View style={s.statDivider} />
             <View style={s.stat}>
               <Text style={s.statValue}>{trip.items.length}</Text>
-              <Text style={s.statLabel}>Items</Text>
+              <Text style={s.statLabel}>{t('trips.items')}</Text>
             </View>
             <View style={s.statDivider} />
             <View style={s.stat}>
               <Text style={s.statValue}>₹{trip.totalAmount}</Text>
-              <Text style={s.statLabel}>Order</Text>
+              <Text style={s.statLabel}>{t('trips.order')}</Text>
             </View>
           </View>
         </View>

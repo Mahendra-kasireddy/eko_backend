@@ -10,6 +10,7 @@ import EarningsChartSection from './earnings-sections/EarningsChart.section';
 import EarningsHistorySection from './earnings-sections/EarningsHistory.section';
 import EkoLoader from '../../components/EkoLoader/EkoLoader';
 import {MonthlyEarnings} from '../../types/earnings.types';
+import {useTranslation} from '../../i18n';
 
 interface EarningsComponentProps {
   monthlyEarnings: MonthlyEarnings | null;
@@ -19,8 +20,9 @@ interface EarningsComponentProps {
 const EarningsComponent: React.FC<EarningsComponentProps> = ({monthlyEarnings, loading}) => {
   useStatusBarStyle('light-content', Colors.primary);
   const insets = useSafeAreaInsets();
+  const {t} = useTranslation();
 
-  if (loading || !monthlyEarnings) return <EkoLoader fullScreen message="Loading earnings..." />;
+  if (loading || !monthlyEarnings) return <EkoLoader fullScreen message={t('earnings.loading')} />;
 
   return (
     <View style={styles.container}>

@@ -7,6 +7,7 @@ import {useStatusBarStyle} from '../../hooks/useStatusBarStyle';
 import {Colors} from '../../constants/colors';
 import TripHistorySection from './trips-sections/TripHistory.section';
 import {Trip} from '../../types/trip.types';
+import {useTranslation} from '../../i18n';
 
 interface TripsComponentProps {
   tripHistory: Trip[];
@@ -14,11 +15,12 @@ interface TripsComponentProps {
 
 const TripsComponent: React.FC<TripsComponentProps> = ({tripHistory}) => {
   useStatusBarStyle('dark-content', Colors.card);
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={Colors.card} />
-      <ScreenHeader title="Past Orders" />
+      <ScreenHeader title={t('trips.title')} />
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <TripHistorySection trips={tripHistory} />
       </ScrollView>

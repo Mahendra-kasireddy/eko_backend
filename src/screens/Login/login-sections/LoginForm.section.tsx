@@ -3,6 +3,7 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {styles} from '../Login.styles';
 import {LOGIN_STRINGS} from '../Login.constants';
 import EkoButton from '../../../components/EkoButton/EkoButton';
+import {useTranslation} from '../../../i18n';
 
 interface LoginFormSectionProps {
   phone: string;
@@ -24,9 +25,11 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   handlePhoneChange,
   handleContinue,
   handleSignUp,
-}) => (
+}) => {
+  const {t} = useTranslation();
+  return (
   <View style={styles.body}>
-    <Text style={styles.label}>Mobile Number</Text>
+    <Text style={styles.label}>{t('auth.mobile_number')}</Text>
     <View style={[styles.inputRow, isFocused && styles.inputRowFocused]}>
       <View style={styles.countryCode}>
         <Text style={styles.flagText}>🇮🇳</Text>
@@ -65,18 +68,19 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     {/* Divider */}
     <View style={styles.dividerRow}>
       <View style={styles.dividerLine} />
-      <Text style={styles.dividerText}>OR</Text>
+      <Text style={styles.dividerText}>{t('auth.or')}</Text>
       <View style={styles.dividerLine} />
     </View>
 
     {/* Sign Up link */}
     <View style={styles.signupRow}>
-      <Text style={styles.signupText}>New Rider?</Text>
+      <Text style={styles.signupText}>{t('auth.new_rider')}</Text>
       <TouchableOpacity onPress={handleSignUp} activeOpacity={0.7}>
-        <Text style={styles.signupLink}>Create Account →</Text>
+        <Text style={styles.signupLink}>{t('auth.create_account')}</Text>
       </TouchableOpacity>
     </View>
   </View>
-);
+  );
+};
 
 export default LoginFormSection;

@@ -117,6 +117,11 @@ export const styles = StyleSheet.create({
   settingEmoji: {fontSize: 18},
   settingText: {fontSize: FontSize.base, color: Colors.text.primary},
   settingArrow: {fontSize: 16, color: Colors.text.muted},
+  settingValue: {
+    fontSize: FontSize.sm,
+    color: Colors.primary,
+    fontWeight: FontWeight.semiBold,
+  },
 
   // Logout
   logoutSection: {padding: 16, paddingBottom: 110},

@@ -12,11 +12,12 @@ import {
 import {styles} from '../Signup.styles';
 import {VehicleType} from '../../../types/rider.types';
 import EkoButton from '../../../components/EkoButton/EkoButton';
+import {useTranslation} from '../../../i18n';
 
-const VEHICLES: {type: VehicleType; icon: string; label: string}[] = [
-  {type: 'bike', icon: '🏍️', label: 'Bike'},
-  {type: 'scooter', icon: '🛵', label: 'Scooter'},
-  {type: 'cycle', icon: '🚲', label: 'Cycle'},
+const VEHICLE_TYPES: {type: VehicleType; icon: string; key: 'bike' | 'scooter' | 'cycle'}[] = [
+  {type: 'bike', icon: '🏍️', key: 'bike'},
+  {type: 'scooter', icon: '🛵', key: 'scooter'},
+  {type: 'cycle', icon: '🚲', key: 'cycle'},
 ];
 
 interface SignupFormProps {
@@ -63,6 +64,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
   isValid,
   onSubmit,
 }) => {
+  const {t} = useTranslation();
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const nameRef = useRef<TextInputType>(null);
   const emailRef = useRef<TextInputType>(null);
@@ -80,7 +82,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         showsVerticalScrollIndicator={false}>
 
         {/* Mobile Number */}
-        <Field label="Mobile Number">
+        <Field label={t('auth.mobile_number')}>
           <View style={[
             styles.phoneRow,
             focusedField === 'phone' && !phoneReadOnly && styles.inputFocused,
@@ -92,7 +94,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
             </View>
             <TextInput
               style={styles.phoneInput}
-              placeholder="10-digit mobile number"
+              placeholder={t('auth.phone_placeholder')}
               placeholderTextColor="#C4C9D4"
               keyboardType="phone-pad"
               maxLength={10}
@@ -105,13 +107,13 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
               onSubmitEditing={() => nameRef.current?.focus()}
             />
             {phoneReadOnly && (
-              <Text style={styles.verifiedTag}>✓ Verified</Text>
+              <Text style={styles.verifiedTag}>{t('auth.verified')}</Text>
             )}
           </View>
         </Field>
 
         {/* Full Name */}
-        <Field label="Full Name">
+        <Field label={t('auth.full_name')}>
           <TextInput
             ref={nameRef}
             style={[styles.input, focusedField === 'name' && styles.inputFocused]}
@@ -128,7 +130,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         </Field>
 
         {/* Email */}
-        <Field label="Email" optional>
+        <Field label={t('auth.email')} optional>
           <TextInput
             ref={emailRef}
             style={[styles.input, focusedField === 'email' && styles.inputFocused]}
@@ -146,9 +148,9 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         </Field>
 
         {/* Vehicle Type */}
-        <Field label="Vehicle Type">
+        <Field label={t('auth.vehicle_type')}>
           <View style={styles.vehicleRow}>
-            {VEHICLES.map(v => (
+            {VEHICLE_TYPES.map(v => (
               <TouchableOpacity
                 key={v.type}
                 style={[
@@ -163,7 +165,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
                     styles.vehicleLabel,
                     vehicleType === v.type && styles.vehicleLabelSelected,
                   ]}>
-                  {v.label}
+                  {t(`auth.${v.key}`)}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -171,14 +173,14 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         </Field>
 
         {/* Vehicle Number */}
-        <Field label="Vehicle Number">
+        <Field label={t('auth.vehicle_number')}>
           <TextInput
             ref={vehicleNumRef}
             style={[styles.input, focusedField === 'vehicleNumber' && styles.inputFocused]}
             placeholder="TS09AB1234"
             placeholderTextColor="#C4C9D4"
             value={vehicleNumber}
-            onChangeText={t => setVehicleNumber(t.toUpperCase())}
+            onChangeText={val => setVehicleNumber(val.toUpperCase())}
             autoCapitalize="characters"
             returnKeyType="next"
             onFocus={() => setFocusedField('vehicleNumber')}
@@ -188,7 +190,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
         </Field>
 
         {/* City */}
-        <Field label="City">
+        <Field label={t('auth.city')}>
           <TextInput
             ref={cityRef}
             style={[styles.input, focusedField === 'city' && styles.inputFocused]}
@@ -206,7 +208,7 @@ const SignupFormSection: React.FC<SignupFormProps> = ({
 
         <View style={styles.submitBtn}>
           <EkoButton
-            label="Create Account"
+            label={t('auth.register')}
             onPress={onSubmit}
             loading={loading}
             disabled={!isValid}

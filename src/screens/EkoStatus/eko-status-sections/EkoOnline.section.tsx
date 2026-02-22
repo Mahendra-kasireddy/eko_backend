@@ -13,6 +13,7 @@ import {Trip} from '../../../types/trip.types';
 import TripMapSection from '../../Trips/trips-sections/TripMap.section';
 import TripDetailsSection from '../../Trips/trips-sections/TripDetails.section';
 import TripActionsSection from '../../Trips/trips-sections/TripActions.section';
+import {useTranslation} from '../../../i18n';
 
 interface EkoOnlineSectionProps {
   activeTrip: Trip | null;
@@ -33,51 +34,54 @@ const PendingPlasticCard: React.FC<{
   totalKg: number;
   onSubmit: () => void;
   loading: boolean;
-}> = ({tripCount, totalKg, onSubmit, loading}) => (
-  <View style={styles.plasticPendingCard}>
-    <View style={styles.plasticPendingHeader}>
-      <View style={styles.plasticPendingIconBg}>
-        <Ionicons name="leaf" size={18} color="#34D399" />
-      </View>
-      <Text style={styles.plasticPendingTitle} numberOfLines={1}>
-        Plastic to Submit
-      </Text>
-      <View style={styles.plasticPendingBadge}>
-        <Text style={styles.plasticPendingBadgeText}>
-          {tripCount} {tripCount === 1 ? 'trip' : 'trips'}
+}> = ({tripCount, totalKg, onSubmit, loading}) => {
+  const {t} = useTranslation();
+  return (
+    <View style={styles.plasticPendingCard}>
+      <View style={styles.plasticPendingHeader}>
+        <View style={styles.plasticPendingIconBg}>
+          <Ionicons name="leaf" size={18} color="#34D399" />
+        </View>
+        <Text style={styles.plasticPendingTitle} numberOfLines={1}>
+          {t('eko_status.pending_plastic')}
         </Text>
+        <View style={styles.plasticPendingBadge}>
+          <Text style={styles.plasticPendingBadgeText}>
+            {tripCount} {tripCount === 1 ? t('eko_status.trip') : t('eko_status.trips')}
+          </Text>
+        </View>
       </View>
-    </View>
 
-    <View style={styles.plasticStatsRow}>
-      <View style={styles.plasticStatItem}>
-        <Text style={styles.plasticStatValue}>{totalKg.toFixed(1)} kg</Text>
-        <Text style={styles.plasticStatLabel}>Collected</Text>
+      <View style={styles.plasticStatsRow}>
+        <View style={styles.plasticStatItem}>
+          <Text style={styles.plasticStatValue}>{totalKg.toFixed(1)} kg</Text>
+          <Text style={styles.plasticStatLabel}>{t('eko_status.collected')}</Text>
+        </View>
+        <View style={styles.plasticStatDivider} />
+        <View style={styles.plasticStatItem}>
+          <Text style={styles.plasticStatValue}>₹{(totalKg * 5).toFixed(0)}</Text>
+          <Text style={styles.plasticStatLabel}>{t('eko_status.incentive')}</Text>
+        </View>
+        <View style={styles.plasticStatDivider} />
+        <View style={styles.plasticStatItem}>
+          <Text style={styles.plasticStatValue}>{tripCount}</Text>
+          <Text style={styles.plasticStatLabel}>{t('eko_status.orders')}</Text>
+        </View>
       </View>
-      <View style={styles.plasticStatDivider} />
-      <View style={styles.plasticStatItem}>
-        <Text style={styles.plasticStatValue}>₹{(totalKg * 5).toFixed(0)}</Text>
-        <Text style={styles.plasticStatLabel}>Incentive</Text>
-      </View>
-      <View style={styles.plasticStatDivider} />
-      <View style={styles.plasticStatItem}>
-        <Text style={styles.plasticStatValue}>{tripCount}</Text>
-        <Text style={styles.plasticStatLabel}>Orders</Text>
-      </View>
-    </View>
 
-    <TouchableOpacity
-      style={styles.submitPlasticBtn}
-      onPress={onSubmit}
-      disabled={loading}
-      activeOpacity={0.8}>
-      <Ionicons name="storefront-outline" size={18} color="#fff" />
-      <Text style={styles.submitPlasticBtnText}>
-        {loading ? 'Submitting...' : 'Submit All to Store'}
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
+      <TouchableOpacity
+        style={styles.submitPlasticBtn}
+        onPress={onSubmit}
+        disabled={loading}
+        activeOpacity={0.8}>
+        <Ionicons name="storefront-outline" size={18} color="#fff" />
+        <Text style={styles.submitPlasticBtnText}>
+          {loading ? t('eko_status.submitting') : t('eko_status.submit_to_store')}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 // ── Radar pulse — no active trip ──────────────────────────────
 const WaitingState: React.FC<{
@@ -86,6 +90,7 @@ const WaitingState: React.FC<{
   pendingPlasticKg: number;
   submitAllPendingPlastic: () => void;
 }> = ({onGoOffline, pendingPlasticTrips, pendingPlasticKg, submitAllPendingPlastic}) => {
+  const {t} = useTranslation();
   const scale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(0.5)).current;
 
@@ -128,8 +133,8 @@ const WaitingState: React.FC<{
           <Ionicons name="radio" size={40} color={Colors.primary} />
         </View>
       </View>
-      <Text style={styles.onlineTitle}>You are Eko Online</Text>
-      <Text style={styles.onlineSubtitle}>Waiting for new orders...</Text>
+      <Text style={styles.onlineTitle}>{t('eko_status.you_are_online')}</Text>
+      <Text style={styles.onlineSubtitle}>{t('eko_status.waiting_for_orders')}</Text>
 
       {pendingPlasticTrips.length > 0 && (
         <PendingPlasticCard
@@ -145,7 +150,7 @@ const WaitingState: React.FC<{
         onPress={onGoOffline}
         activeOpacity={0.8}>
         <Ionicons name="power-outline" size={16} color="#475569" />
-        <Text style={styles.goOfflineBtnText}>Go Eko Offline</Text>
+        <Text style={styles.goOfflineBtnText}>{t('eko_status.go_offline_btn')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

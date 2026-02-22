@@ -13,7 +13,7 @@ import {Rider, RiderStats} from '../../types/rider.types';
 import {Trip} from '../../types/trip.types';
 import {Colors} from '../../constants/colors';
 import {FontSize, FontWeight} from '../../constants/fonts';
-import {HOME_STRINGS} from './Home.constants';
+import {useTranslation} from '../../i18n';
 
 const TIER_COLORS: Record<string, string> = {
   bronze: Colors.bronze,
@@ -24,12 +24,6 @@ const TIER_EMOJI: Record<string, string> = {
   bronze: '🥉',
   silver: '🥈',
   gold: '🥇',
-};
-const getGreeting = (): string => {
-  const h = new Date().getHours();
-  if (h < 12) return HOME_STRINGS.GREETING_MORNING;
-  if (h < 17) return HOME_STRINGS.GREETING_AFTERNOON;
-  return HOME_STRINGS.GREETING_EVENING;
 };
 
 interface HomeComponentProps {
@@ -48,8 +42,16 @@ interface HomeComponentProps {
 
 const HomeComponent: React.FC<HomeComponentProps> = props => {
   useStatusBarStyle('dark-content', Colors.card);
+  const {t} = useTranslation();
 
-  if (props.loading) return <EkoLoader fullScreen message="Loading your dashboard..." />;
+  const getGreeting = (): string => {
+    const h = new Date().getHours();
+    if (h < 12) return t('home.greeting_morning');
+    if (h < 17) return t('home.greeting_afternoon');
+    return t('home.greeting_evening');
+  };
+
+  if (props.loading) return <EkoLoader fullScreen message={t('common.loading')} />;
 
   const tier = props.rider?.tier;
 
