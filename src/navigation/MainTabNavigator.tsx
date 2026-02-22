@@ -13,6 +13,9 @@ import {Colors} from '../constants/colors';
 import {FontSize, FontWeight} from '../constants/fonts';
 import {useRiderStore} from '../store/rider.store';
 import {useTripStore} from '../store/trip.store';
+import {simulateNewOrderAssignment} from '../services/trip.service';
+import HomeNewOrderSection from '../screens/Home/home-sections/HomeNewOrder.section';
+import {Trip} from '../types/trip.types';
 
 // Screens
 import HomeContainer from '../screens/Home/Home.container';
@@ -279,17 +282,66 @@ const tabStyles = StyleSheet.create({
   },
 });
 
-const MainTabNavigator: React.FC = () => (
-  <Tab.Navigator
-    initialRouteName="EkoStatus"
-    tabBar={props => <CustomTabBar {...(props as unknown as TabBarProps)} />}
-    screenOptions={{headerShown: false}}>
-    <Tab.Screen name="Home" component={HomeContainer} />
-    <Tab.Screen name="Trips" component={TripsContainer} />
-    <Tab.Screen name="EkoStatus" component={EkoStatusContainer} />
-    <Tab.Screen name="Earnings" component={EarningsContainer} />
-    <Tab.Screen name="Profile" component={ProfileContainer} />
-  </Tab.Navigator>
-);
+const MainTabNavigator: React.FC = () => {
+  const isOnline = useRiderStore(s => s.isOnline);
+  const pendingTrip = useTripStore(s => s.pendingTrip);
+  const setPendingTrip = useTripStore(s => s.setPendingTrip);
+  const setActiveTrip = useTripStore(s => s.setActiveTrip);
+  const activeTrip = useTripStore(s => s.activeTrip);
+  const isFetching = useRef(false);
+
+  // Simulate new order assignment globally (works on any screen)
+  useEffect(() => {
+    if (!isOnline || activeTrip || pendingTrip || isFetching.current) return;
+    isFetching.current = true;
+    let cancelled = false;
+
+    simulateNewOrderAssignment()
+      .then(trip => {
+        if (!cancelled && isOnline) setPendingTrip(trip);
+      })
+      .catch(() => {})
+      .finally(() => {
+        isFetching.current = false;
+      });
+
+    return () => {
+      cancelled = true;
+      isFetching.current = false;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnline, !!activeTrip, !!pendingTrip]);
+
+  const handleAcceptOrder = (trip: Trip) => {
+    setPendingTrip(null);
+    setActiveTrip(trip);
+  };
+
+  const handleDeclineOrder = () => setPendingTrip(null);
+
+  return (
+    <>
+      <Tab.Navigator
+        initialRouteName="EkoStatus"
+        tabBar={props => <CustomTabBar {...(props as unknown as TabBarProps)} />}
+        screenOptions={{headerShown: false}}>
+        <Tab.Screen name="Home" component={HomeContainer} />
+        <Tab.Screen name="Trips" component={TripsContainer} />
+        <Tab.Screen name="EkoStatus" component={EkoStatusContainer} />
+        <Tab.Screen name="Earnings" component={EarningsContainer} />
+        <Tab.Screen name="Profile" component={ProfileContainer} />
+      </Tab.Navigator>
+
+      {/* Global new order popup — visible on every tab */}
+      {pendingTrip && (
+        <HomeNewOrderSection
+          trip={pendingTrip}
+          onAccept={handleAcceptOrder}
+          onDecline={handleDeclineOrder}
+        />
+      )}
+    </>
+  );
+};
 
 export default MainTabNavigator;

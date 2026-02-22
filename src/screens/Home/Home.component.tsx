@@ -8,7 +8,6 @@ import HomeHeaderSection from './home-sections/HomeHeader.section';
 import HomeStatsSection from './home-sections/HomeStats.section';
 import HomeActiveOrderSection from './home-sections/HomeActiveOrder.section';
 import HomeQuickActionsSection from './home-sections/HomeQuickActions.section';
-import HomeNewOrderSection from './home-sections/HomeNewOrder.section';
 import EkoLoader from '../../components/EkoLoader/EkoLoader';
 import {Rider, RiderStats} from '../../types/rider.types';
 import {Trip} from '../../types/trip.types';
@@ -37,13 +36,10 @@ interface HomeComponentProps {
   rider: Rider | null;
   stats: RiderStats | null;
   activeTrip: Trip | null;
-  pendingTrip: Trip | null;
   loading: boolean;
   error: string;
   isOnline: boolean;
   handleToggleOnline: () => void;
-  handleAcceptOrder: (trip: Trip) => void;
-  handleDeclineOrder: () => void;
   goToTrips: () => void;
   goToEkoStatus: () => void;
   goToEarnings: () => void;
@@ -108,14 +104,6 @@ const HomeComponent: React.FC<HomeComponentProps> = props => {
         />
       </ScrollView>
 
-      {/* ── New order popup ── */}
-      {props.pendingTrip && (
-        <HomeNewOrderSection
-          trip={props.pendingTrip}
-          onAccept={props.handleAcceptOrder}
-          onDecline={props.handleDeclineOrder}
-        />
-      )}
     </SafeAreaView>
   );
 };
