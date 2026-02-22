@@ -12,6 +12,8 @@ interface ScreenHeaderProps {
   leftContent?: React.ReactNode;
   /** Custom right node (badge, icon, button) */
   rightContent?: React.ReactNode;
+  /** Center the title instead of left-aligning */
+  centered?: boolean;
 }
 
 const ScreenHeader: React.FC<ScreenHeaderProps> = ({
@@ -19,17 +21,22 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   subtitle,
   leftContent,
   rightContent,
+  centered,
 }) => (
   <>
     <View style={s.header}>
-      <View style={s.left}>
-        {leftContent ?? (
-          <>
-            {title ? <Text style={s.title}>{title}</Text> : null}
-            {subtitle ? <Text style={s.subtitle}>{subtitle}</Text> : null}
-          </>
-        )}
-      </View>
+      {centered ? (
+        <Text style={[s.title, s.titleCentered]}>{title}</Text>
+      ) : (
+        <View style={s.left}>
+          {leftContent ?? (
+            <>
+              {title ? <Text style={s.title}>{title}</Text> : null}
+              {subtitle ? <Text style={s.subtitle}>{subtitle}</Text> : null}
+            </>
+          )}
+        </View>
+      )}
       {rightContent ? <View style={s.right}>{rightContent}</View> : null}
     </View>
   </>
@@ -53,6 +60,10 @@ const s = StyleSheet.create({
     fontSize: FontSize.lg,
     fontWeight: FontWeight.extraBold,
     color: Colors.text.primary,
+  },
+  titleCentered: {
+    flex: 1,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: FontSize.xs,

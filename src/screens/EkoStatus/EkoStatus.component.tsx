@@ -41,7 +41,7 @@ const EkoStatusComponent: React.FC<EkoStatusComponentProps> = ({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={Colors.card} />
-      <ScreenHeader title={isOnline ? 'Eko Online' : 'Eko Offline'} />
+      <ScreenHeader title={isOnline ? 'EKO Online' : 'EKO Offline'} centered />
 
       {isOnline ? (
         <EkoOnlineSection

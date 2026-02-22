@@ -281,6 +281,7 @@ const tabStyles = StyleSheet.create({
 
 const MainTabNavigator: React.FC = () => (
   <Tab.Navigator
+    initialRouteName="EkoStatus"
     tabBar={props => <CustomTabBar {...(props as unknown as TabBarProps)} />}
     screenOptions={{headerShown: false}}>
     <Tab.Screen name="Home" component={HomeContainer} />
