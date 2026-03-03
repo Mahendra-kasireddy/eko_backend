@@ -3,7 +3,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
 import {isValidPhone} from '../../../utils/validators';
-import {sendOtp} from '../../../services/auth.service';
+import {LoginService} from '../login.service';
+import {LOGIN_STRINGS} from '../Login.constants';
 
 type LoginNavProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -22,7 +23,7 @@ export const useLoginActions = () => {
     setError('');
     setLoading(true);
     try {
-      await sendOtp(phone);
+      await LoginService.sendOtp(phone, LOGIN_STRINGS.COUNTRY_CODE);
       navigation.navigate('OTP', {phone});
     } catch {
       setError('Failed to send OTP. Please try again.');

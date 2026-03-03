@@ -2,9 +2,12 @@ import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
-import {verifyOtp, sendOtp} from '../../../services/auth.service';
+import {LoginService, NoRiderAccountError} from '../../Login/login.service';
+import {TokenStorage} from '../../../services/token.storage';
+import {RiderStorage} from '../../../services/rider.storage';
 import {useRiderStore} from '../../../store/rider.store';
 import {APP} from '../../../constants/app.constants';
+import {LOGIN_STRINGS} from '../../Login/Login.constants';
 
 type OTPNavProp = NativeStackNavigationProp<AuthStackParamList, 'OTP'>;
 
@@ -27,15 +30,22 @@ export const useOTPActions = (
     setLoading(true);
     setError('');
     try {
-      const res = await verifyOtp(phone, code);
+      const countryCode = LOGIN_STRINGS.COUNTRY_CODE;
+      const res = await LoginService.verifyOtp(phone, code, countryCode);
+      await TokenStorage.setToken(res.token);
+      await RiderStorage.setRider(res.rider);
       if (isSignup || res.isNewUser) {
         navigation.navigate('Signup', {phone});
       } else {
         setRider(res.rider);
-        // Navigation handled by RootNavigator via store
       }
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Verification failed');
+      if (e instanceof NoRiderAccountError) {
+        setError(e.message);
+        navigation.navigate('Signup', {phone});
+      } else {
+        setError(e instanceof Error ? e.message : 'Verification failed');
+      }
     } finally {
       setLoading(false);
     }
@@ -46,7 +56,7 @@ export const useOTPActions = (
     setError('');
     setCanResend(false);
     setResendTimer(APP.OTP_RESEND_SECONDS);
-    await sendOtp(phone);
+    await LoginService.sendOtp(phone, LOGIN_STRINGS.COUNTRY_CODE);
   };
 
   const handleBack = () => navigation.goBack();

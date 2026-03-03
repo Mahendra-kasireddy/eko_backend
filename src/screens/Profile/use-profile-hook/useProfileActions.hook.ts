@@ -1,5 +1,7 @@
 import {Alert} from 'react-native';
 import {useRiderStore} from '../../../store/rider.store';
+import {TokenStorage} from '../../../services/token.storage';
+import {RiderStorage} from '../../../services/rider.storage';
 import {PROFILE_STRINGS} from '../Profile.constants';
 
 export const useProfileActions = () => {
@@ -11,7 +13,11 @@ export const useProfileActions = () => {
       {
         text: PROFILE_STRINGS.LOGOUT_CONFIRM_BTN,
         style: 'destructive',
-        onPress: () => clearRider(),
+        onPress: async () => {
+          await TokenStorage.removeToken();
+          await RiderStorage.removeRider();
+          clearRider();
+        },
       },
     ]);
   };

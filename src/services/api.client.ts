@@ -4,6 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import {API_BASE_URL} from '../constants/api.constants';
+import {TokenStorage} from './token.storage';
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -16,9 +17,11 @@ const apiClient: AxiosInstance = axios.create({
 
 // Request interceptor — attach auth token
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    // TODO: attach token from AsyncStorage or zustand
-    // config.headers.Authorization = `Bearer ${token}`;
+  async (config: InternalAxiosRequestConfig) => {
+    const token = await TokenStorage.getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   error => Promise.reject(error),
